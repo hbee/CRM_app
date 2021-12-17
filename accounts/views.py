@@ -2,6 +2,8 @@ from django.shortcuts import render
 from .models import *
 
 def homeView(request):
+
+
     orders = Order.objects.all()
     customers = Customer.objects.all()
     total_orders = orders.count()
@@ -27,7 +29,11 @@ def productsView(request):
 
 def customerView(request, pk):
     customer = Customer.objects.get(pk=pk)
+    orders = customer.order_set.all()
+    orders_count = orders.count()
     context = {
-        'customer' : customer
+        'customer' : customer,
+        'orders' : orders,
+        'orders_count' : orders_count,
     }
     return render(request, 'accounts/customer.html', context)
