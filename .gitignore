@@ -1,2 +1,3 @@
 /venv
 /CRM_app/.env
+/accounts/migrations
