@@ -1,6 +1,28 @@
 {% extends 'accounts/acc_base.html' %}
-
+{% load crispy_forms_tags %}
 {% block content %}
+
+<!-- Modal for new orders -->
+<div class="modal fade" id="AddOrderModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add new order</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form action="" method="POST" autocomplete="off">
+              {% csrf_token %}
+              {{form|crispy}}
+              <button type="submit" class="btn btn-primary">Save</button>
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 	<br>
 
@@ -9,8 +31,9 @@
 		<div class="card card-body">
 			<h5>Customer:</h5>
 			<hr>
-			<a class="btn btn-outline-info  btn-sm btn-block" href="">Update Customer</a>
-			<a class="btn btn-outline-danger  btn-sm btn-block" href="">Delete Customer</a>
+			<a class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#AddOrderModal">Place New Order</a>
+			<br>
+			<a class="btn btn-outline-danger  btn-sm btn-block" href="{% url 'DeleteCustomer' customer.id %}">Delete Customer</a>
 		</div>
 	</div>
 
@@ -65,11 +88,10 @@
 					<td>{{order.product.category}}</td>
 					<td>{{order.Date_created}}</td>
 					<td>{{order.status}}</td>
-					<td><a href="" class="btn btn-sm btn-info">Update</a> </td>
-					<td><a href="" class="btn btn-sm btn-danger">Delete</a> </td>
+					<td><a href="{% url 'UpdateOrder' order.id %}" class="btn btn-sm btn-info">Update</a> </td>
+					<td><a href="{% url 'DeleteOrder' order.id %}" class="btn btn-sm btn-danger">Delete</a> </td>
 				</tr>
 				{% endfor %}
-
 			</table>
 		</div>
 	</div>
