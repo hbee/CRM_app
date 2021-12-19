@@ -3,6 +3,7 @@ from django.views.generic import DeleteView
 from django.urls import reverse_lazy
 from .models import *
 from .forms import AddOrderForm, AddCustomerForm
+from .filters import OrderFilter
 
 def homeView(request):
     error = None
@@ -44,17 +45,21 @@ def productsView(request):
 
 def customerView(request, pk):
     form = AddOrderForm(request.POST or None)
+
     if request.method == 'POST':
         if form.is_valid():
             form.save()
     customer = Customer.objects.get(pk=pk)
     orders = customer.order_set.all()
     orders_count = orders.count()
+    orderFilter = OrderFilter(request.GET, queryset=orders)
+    orders = orderFilter.qs
     context = {
         'form' : form,
         'customer' : customer,
         'orders' : orders,
         'orders_count' : orders_count,
+        'orderFilter' : orderFilter,
     }
     return render(request, 'accounts/customer.html', context)
 
