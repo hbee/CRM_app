@@ -14,4 +14,7 @@ urlpatterns = [
     path('register/', views.RegisterView, name='register'),
     path('login/', views.LoginView, name='login'),
     path('logout/', views.LogoutView, name='logout'),
+
+    path('client/', views.ClientHomeView, name='client'),
+    path('settings/', views.AccountSettingsView, name='settings')
 ]
